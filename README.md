@@ -103,8 +103,10 @@ system_design/
 | 011 | docker-compose | Orquestrar os 5 serviços + rede interna |
 | 012 | Monolito em 1 container | Comparação 1 vs 5 containers |
 
-> Extra: `specs/security/` — `owasp-top10.md` (hardening aplicado) e
-> `distroless.md` (imagens de container mínimas).
+> **Plus (fora do curso):** a parte de segurança — `specs/security/` com
+> `owasp-top10.md` (hardening OWASP Top 10 aplicado) e `distroless.md`
+> (imagens de container mínimas) — foi solicitada por fora do curso, como
+> conteúdo extra/bônus.
 
 ---
 
