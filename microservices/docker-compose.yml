@@ -1,0 +1,85 @@
+services:
+  products:
+    build: ./products
+    environment:
+      API_KEY: dev-api-key
+      ALLOWED_HOSTS: "*"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  users:
+    build: ./users
+    environment:
+      API_KEY: dev-api-key
+      ALLOWED_HOSTS: "*"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  orders:
+    build: ./orders
+    environment:
+      API_KEY: dev-api-key
+      ALLOWED_HOSTS: "*"
+      USERS_URL: http://users:8002
+      PRODUCTS_URL: http://products:8001
+    depends_on:
+      products:
+        condition: service_healthy
+      users:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  payments:
+    build: ./payments
+    environment:
+      API_KEY: dev-api-key
+      ALLOWED_HOSTS: "*"
+      ORDERS_URL: http://orders:8003
+    depends_on:
+      orders:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8004/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8000:8000"
+    environment:
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      PRODUCTS_URL: http://products:8001
+      USERS_URL: http://users:8002
+      ORDERS_URL: http://orders:8003
+      PAYMENTS_URL: http://payments:8004
+    depends_on:
+      products:
+        condition: service_healthy
+      users:
+        condition: service_healthy
+      orders:
+        condition: service_healthy
+      payments:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
