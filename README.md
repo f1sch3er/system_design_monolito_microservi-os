@@ -81,7 +81,8 @@ system_design/
 │   ├── infra/              <- specs de containers (010-012)
 │   └── security/           <- hardening OWASP Top 10
 ├── monolith/               <- versão 1: tudo em um único processo
-└── microservices/          <- versão 2: um processo por serviço
+├── microservices/          <- versão 2: um processo por serviço
+└── quiz.py                 <- quiz de revisão (34 questões)
 ```
 
 ---
@@ -103,10 +104,21 @@ system_design/
 | 011 | docker-compose | Orquestrar os 5 serviços + rede interna |
 | 012 | Monolito em 1 container | Comparação 1 vs 5 containers |
 
-> **Plus (fora do curso):** a parte de segurança — `specs/security/` com
-> `owasp-top10.md` (hardening OWASP Top 10 aplicado) e `distroless.md`
-> (imagens de container mínimas) — foi solicitada por fora do curso, como
-> conteúdo extra/bônus.
+---
+
+## Plus (fora do curso)
+
+**Conteúdo extra/bônus** — solicitado por fora do curso:
+
+- **Segurança** (`specs/security/`)
+  - `owasp-top10.md` — hardening OWASP Top 10 aplicado.
+  - `distroless.md` — imagens de container mínimas (menor superfície de ataque).
+- **Quiz** (`quiz.py`) — 34 questões de revisão (SDD, monolito vs microserviços,
+  segurança e containers), com explicação após cada resposta.
+
+  ```bash
+  python quiz.py
+  ```
 
 ---
 
